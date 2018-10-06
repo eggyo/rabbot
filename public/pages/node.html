@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!--[if IE 8]><script src="js/es5.js"></script><![endif]-->
+
+  <title>ไอ้แดง Dang-Reply</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- MetisMenu CSS -->
+  <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+  <!-- Custom Fonts -->
+  <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+  <!-- selectize -->
+  <link href="../vendor/selectize/css/selectize.bootstrap3.css" rel="stylesheet">
+
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  <style>
+    a.borderless {
+      border: 0 none;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+        <a class="navbar-brand" href="index.html">Dang-ReplyBot</a>
+      </div>
+      <!-- /.navbar-header -->
+
+      <!-- /.dropdown
+      <ul class="nav navbar-top-links navbar-right">
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+          <ul class="dropdown-menu dropdown-user">
+            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+            </li>
+            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+            </li>
+            <li class="divider"></li>
+            <li><a href="#" onclick="return theFunction();"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+       -->
+
+      <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+          <ul class="nav" id="side-menu">
+            <li class="sidebar-search">
+              <div class="input-group custom-search-form">
+                <input type="text" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+              </div>
+              <!-- /input-group -->
+            </li>
+            <li>
+              <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+            </li>
+            <li>
+              <a href="#" onclick="return theFunction();"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+            </li>
+
+            <!--   additional menu
+            <li>
+              <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level">
+                <li>
+                  <a href="blank.html">Blank Page</a>
+                </li>
+                <li>
+                  <a href="login.html">Login Page</a>
+                </li>
+              </ul>
+            </li> -->
+
+
+          </ul>
+        </div>
+        <!-- /.sidebar-collapse -->
+      </div>
+      <!-- /.navbar-static-side -->
+    </nav>
+
+    <div id="page-wrapper">
+      <div class="row">
+        <div class="col-lg-12">
+          <h3 id="headerName" class="page-header"></h3>
+        </div>
+        <!-- /.col-lg-12 -->
+      </div>
+      <!-- /.row -->
+      <div id="nodeContent" class="row">
+
+        <a href="#" onclick="serverSwitch()">
+          <div class="col-lg-3 col-md-6">
+            <div id="serverPanel" class="panel panel-danger">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-3">
+                    <i id="serverIcon" class="fa fa-pause fa-4x"></i>
+                  </div>
+                  <div class="col-xs-9 text-right">
+                    <h4>Server</h4>
+                    <p id="serverStatus">ระบบกำลังพักอยู่</p>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-footer">
+                <span id="serverButtonMsg" class="pull-left">คลิ๊กเพื่อให้ระบบเริ่มทำงาน</span>
+                <span class="pull-right"><i id="serverButtonIcon" class="fa fa-close"></i></span>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" onclick="replySwitch()">
+          <div class="col-lg-3 col-md-6">
+            <div id="commentPanel" class="panel panel-danger">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-3">
+                    <i class="fa fa-comments fa-4x"></i>
+                  </div>
+                  <div class="col-xs-9 text-right">
+                    <h4>Auto-Reply</h4>
+                    <p id="commentStatus">ปิดใช้งานอยู่</p>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-footer">
+                <span id="commentButtonMsg" class="pull-left">คลิ๊กเพื่อเปิดใช้งาน</span>
+                <span class="pull-right"><i id="commentButtonIcon" class="fa fa-close"></i></span>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" onclick="inboxSwitch()">
+          <div class="col-lg-3 col-md-6">
+            <div id="inboxPanel" class="panel panel-danger">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-3">
+                    <i class="fa fa-inbox fa-4x"></i>
+                  </div>
+                  <div class="col-xs-9 text-right">
+                    <h4>Auto-Inbox</h4>
+                    <p id="inboxStatus">ปิดใช้งานอยู่</p>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-footer">
+                <span id="inboxButtonMsg" class="pull-left">คลิ๊กเพื่อเปิดใช้งาน</span>
+                <span class="pull-right"><i id="inboxButtonIcon" class="fa fa-close"></i></span>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" onclick="tagSwitch()">
+          <div class="col-lg-3 col-md-6">
+            <div id="tagPanel" class="panel panel-danger">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-3">
+                    <i class="fa fa-users fa-4x"></i>
+                  </div>
+                  <div class="col-xs-9 text-right">
+                    <h4>ตัวกรอง Tag</h4>
+                    <p id="tagStatus">ปิดใช้งานอยู่</p>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-footer">
+                <span id="tagButtonMsg" class="pull-left">คลิ๊กเพื่อเปิดใช้งาน</span>
+                <span class="pull-right"><i id="tagButtonIcon" class="fa fa-close"></i></span>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- default reply panel -->
+      <div class="panel panel-default">
+        <div class="panel-heading" >
+          <i class="fa fa-comments fa-fw"></i>
+          <div class="pull-right">
+            <button id="apllyDefaultReplyNodeBtn" type="button" class="btn btn-success btn-xs" onclick="applyDefaultReplyAndInbox()">Apply <span class="fa fa-check"></span></button>
+          </div> Reply มาตรฐาน
+        </div>
+        <div class="panel-body">
+          <form role="form" class="row">
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group">
+                <label>ให้ Reply ใน Comment ว่า:</label>
+                <input id="default-reply-tags" class="form-control" value="">
+              </div>
+              <div class="form-group">
+                <label>เพิ่ม Reply :</label>
+                <textarea class="form-control" rows="5" id="add-reply"></textarea>
+              </div>
+              <div class="form-group">
+                <button id="addDefaultReplyNodeBtn" type="button" class="btn btn-primary pull-right" onclick="addDefaultReply()">เพิ่ม Reply</button>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group">
+                <label>ให้ตอบใน Inbox ว่า:</label>
+                <input id="default-inbox-tags" class="form-control" value="">
+              </div>
+              <div class="form-group">
+                <label>เพิ่ม Inbox :</label>
+                <textarea class="form-control" rows="5" id="add-inbox"></textarea>
+              </div>
+              <div class="form-group">
+                <button id="addDefaultInboxNodeBtn" type="button" class="btn btn-primary pull-right" onclick="addDefaultInbox()">เพิ่ม Reply</button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+      <!-- default reply panel -->
+
+      <!-- custom reply panel -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <i class="fa fa-comments fa-fw"></i>
+          <div class="pull-right">
+            <button type="button" class="btn btn-primary btn-xs dropdown-toggle" onclick="openCreateReplyModal()">New Reply  <span class="fa fa-plus"></span></button>
+          </div> ปรับแต่งระบบ Reply เพิ่มเติม
+        </div>
+        <div class="panel-body">
+          <div id="replyContent" class="row">
+            <!--
+            <a href="#" onclick="" class="list-group-item borderless">
+              <div class="panel panel-info">
+                <div id="panel-item-body" class="panel-body">
+                  ลูกค้า Comment :
+                </div>
+              </div>
+            </a>
+-->
+          </div>
+        </div>
+      </div>
+      <!-- custom reply panel -->
+
+
+    </div>
+    <!-- /#page-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="createReplyModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">ใส่ข้อมูลระบบ Reply อัตโนมัติ..</h4>
+        </div>
+
+        <div class="modal-body">
+
+          <form role="form">
+            <div class="form-group">
+              <label>Post ที่ติด Hashtag ว่า:</label>
+              <input id="hashtag-tags" class="form-control" value="">
+            </div>
+            <div class="form-group">
+              <label>เมื่อลูกค้า Comment ว่า:</label>
+              <input id="input-tags" class="form-control" value="">
+            </div>
+            <div class="form-group">
+              <label>ให้ Reply ใน Comment ว่า:</label>
+              <input id="reply-tags" class="form-control" value="">
+            </div>
+            <div class="form-group">
+              <label>ให้ตอบใน Inbox ว่า:</label>
+              <input id="inbox-tags" class="form-control" value="">
+            </div>
+          </form>
+
+        </div>
+
+        <div class="modal-footer">
+          <button id="deleteNodeBtn" type="button" class="btn btn-danger">Remove</button>
+          <button id="saveReplyNodeBtn" type="button" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- Modal -->
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="resultModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Result : </h4>
+        </div>
+
+        <div class="modal-body">
+          <div id="resultModalBody"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- Modal -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="processingModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">กรุณารอซักครู่</h4>
+        </div>
+
+        <div class="modal-body" id="processingModalBody">
+          <p id="modalMessage">ระบบกำลังทำงาน...</p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <!-- Modal -->
+
+
+  <script src="../js/appEnv.js"></script>
+  <script>
+    var accessToken = "";
+    var userID = "";
+    var isServerStart = false;
+    var isUseAutoReply = false;
+    var isUseAutoInbox = false;
+    var isUseTagFilter = false;
+    var currentObjectId = "";
+    var currentPageId = "";
+    var currentAskString = "";
+    var currentHashtagString = "";
+    var currentReplyString = "";
+    var currentInboxString = "";
+    var currentDefaultReplyString = "";
+    var currentDefaultInboxString = "";
+    var replyNodes = [];
+
+
+    function addDefaultReply(){
+      var $selectType = $('#default-reply-tags').selectize();
+      var default_reply_tags = $selectType[0].selectize;
+      var text = $('#add-reply').val();
+      text = text.replace(/(?:\r\n|\r|\n)/g, '\\n');
+      default_reply_tags.addOption({value: text, text: text});
+      default_reply_tags.addItem(text);
+    }
+
+    function addDefaultInbox(){
+      var $selectType = $('#default-inbox-tags').selectize();
+      var default_inbox_tags = $selectType[0].selectize;
+      var text = $('#add-inbox').val();
+      text = text.replace(/(?:\r\n|\r|\n)/g, '\\n');
+      default_inbox_tags.addOption({value: text, text: text});
+      default_inbox_tags.addItem(text);
+    }
+
+    function showHUD(){
+      $('#processingModal').modal({
+        backdrop: 'static',
+        keyboard: false
+      });
+    }
+    function hideHUD(){
+      $('#processingModal').modal('toggle');
+    }
+    function showAlert(msg){
+      hideHUD();
+      $('#resultModalBody').text(msg);
+      $('#resultModal').modal({
+        backdrop: 'static',
+        keyboard: false
+      });
+      setTimeout(function() {
+        $('#resultModal').modal('toggle');
+      },1000);
+    }
+
+    function saveReply(replyNodeId) {
+      if (currentPageId != '') {
+        var hashtagDatas = currentHashtagString.split(",");
+        var inputDatas = currentAskString.split(",");
+        var replyDatas = currentReplyString.split(",");
+        var inboxDatas = currentInboxString.split(",");
+        hashtagDatas = JSON.stringify(hashtagDatas);
+        inputDatas = JSON.stringify(inputDatas);
+        replyDatas = JSON.stringify(replyDatas);
+        inboxDatas = JSON.stringify(inboxDatas);
+        $('#createReplyModal').modal('toggle');
+        showHUD();
+        var data = '';
+        if (replyNodeId) {
+          data = '{"input":' + inputDatas + ',"replyNodeId":"' + replyNodeId + '","hashtag":' + hashtagDatas + ',"reply":' + replyDatas + ',"inbox":' + inboxDatas + ',"pageId":"' + currentPageId + '"}';
+        } else {
+          data = '{"input":' + inputDatas + ',"hashtag":' + hashtagDatas + ',"reply":' + replyDatas + ',"inbox":' + inboxDatas + ',"pageId":"' + currentPageId + '"}';
+        }
+        //showAlert(JSON.stringify(data));
+
+        callParseServerCloudCode("saveReplyNode", data, function(response) {
+          if (response) {
+            // refresh html and replynodeArray
+            callParseServerCloudCode("getPageReplyNode", '{"pageId":"' + currentPageId + '"}', function(response) {
+              if (response) {
+                showAlert("🤖:เพิ่มเรียบร้อย !");
+
+                $('#replyContent').empty();
+                for (var i = 0; i < response.length; i++) {
+                  replyNodes[i] = response[i];
+                  $('#replyContent').append('<a href="#" onclick="openUpdateReplyModal(' + i + ')" class="list-group-item borderless"><div class="panel panel-info"><div id="panel-item-body" class="panel-body">ลูกค้า Comment :' + JSON.stringify(
+                    replyNodes[i].input) + '</div></div></a>');
+                }
+              }
+            });
+          }
+        });
+      } else {
+        showAlert('บางอย่างผิดพลาด ลอง refresh หน้านี้ใหม่');
+        $('#createReplyModal').modal('toggle');
+
+      }
+    }
+
+    function loadSelectize() {
+      // selectize
+      $('#hashtag-tags').selectize({
+        plugins: ['remove_button', 'restore_on_backspace'],
+        persist: false,
+        createOnBlur: true,
+        delimiter: ',',
+        create: true,
+        onChange: function(value) {
+          currentHashtagString = value;
+        }
+      });
+
+      $('#input-tags').selectize({
+        plugins: ['remove_button', 'restore_on_backspace'],
+        persist: false,
+        createOnBlur: true,
+        delimiter: ',',
+        create: true,
+        onChange: function(value) {
+          currentAskString = value;
+        }
+      });
+
+      $('#reply-tags').selectize({
+        plugins: ['remove_button', 'restore_on_backspace'],
+        persist: false,
+        createOnBlur: true,
+        delimiter: ',',
+        create: true,
+        onChange: function(value) {
+          currentReplyString = value;
+        }
+      });
+
+      $('#inbox-tags').selectize({
+        plugins: ['remove_button', 'restore_on_backspace'],
+        persist: false,
+        createOnBlur: true,
+        delimiter: ',',
+        create: true,
+        onChange: function(value) {
+          currentInboxString = value;
+        }
+      });
+
+      $('#default-reply-tags').selectize({
+        plugins: ['remove_button', 'restore_on_backspace'],
+        persist: false,
+        createOnBlur: true,
+        delimiter: ',',
+        create: false,
+        onChange: function(value) {
+          currentDefaultReplyString = value;
+        }
+      });
+
+      $('#default-inbox-tags').selectize({
+        plugins: ['remove_button', 'restore_on_backspace'],
+        persist: false,
+        createOnBlur: true,
+        delimiter: ',',
+        create: false,
+        onChange: function(value) {
+          currentDefaultInboxString = value;
+        }
+      });
+
+    }
+    window.onload = function() {
+      //showAlert("Welcome!");
+
+      loadSelectize();
+
+      currentObjectId = location.search.substring(1);
+      callParseServerCloudCode("getPageNode", '{"objectId":"' + currentObjectId + '"}', function(response) {
+        if (response) {
+          // go to customize page
+          $('#headerName').append(response.pageName);
+          isServerStart = response.startServer;
+          isUseAutoReply = response.autoreply;
+          isUseAutoInbox = response.autoinbox;
+          isUseTagFilter = response.tagFilter;
+          currentPageId = response.pageId;
+
+          setTimeout(function() {
+            for (var i = 0; i < response.defaultInbox.length; i++) {
+              if (response.defaultInbox[i] != "") {
+                $('#default-inbox-tags')[0].selectize.addOption({
+                  text: response.defaultInbox[i],
+                  value: response.defaultInbox[i]
+                });
+                $('#default-inbox-tags')[0].selectize.refreshOptions();
+                $('#default-inbox-tags')[0].selectize.addItem(response.defaultInbox[i]);
+              }
+            }
+
+            for (var i = 0; i < response.defaultReply.length; i++) {
+              if (response.defaultReply[i] != "") {
+                $('#default-reply-tags')[0].selectize.addOption({
+                  text: response.defaultReply[i],
+                  value: response.defaultReply[i]
+                });
+                $('#default-reply-tags')[0].selectize.refreshOptions();
+                $('#default-reply-tags')[0].selectize.addItem(response.defaultReply[i]);
+              }
+            }
+          }, 500);
+
+
+          callParseServerCloudCode("getPageReplyNode", '{"pageId":"' + currentPageId + '"}', function(response) {
+            if (response) {
+              for (var i = 0; i < response.length; i++) {
+                replyNodes[i] = response[i];
+                $('#replyContent').append('<a href="#" onclick="openUpdateReplyModal(' + i + ')" class="list-group-item borderless"><div class="panel panel-info"><div id="panel-item-body" class="panel-body">ลูกค้า Comment :' + JSON.stringify(
+                  replyNodes[i].input) + '</div></div></a>');
+              }
+            }
+          });
+
+          if (isServerStart == true)
+            updateServerUI(isServerStart);
+          if (isUseAutoReply == true)
+            updateReplyUI(isUseAutoReply);
+          if (isUseAutoInbox == true)
+            updateInboxUI(isUseAutoInbox);
+          if (isUseTagFilter == true)
+            updateTagUI(isUseTagFilter);
+
+        } else {
+          showAlert("มีบางอย่างผิดพลาด!!");
+        }
+      });
+    };
+
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId: config.FB_CLIENT_ID,
+        cookie: false, // enable cookies to allow the server to access
+        xfbml: true, // parse social plugins on this page
+        version: config.GRAPH_API_VER // use graph api version 2.10
+      });
+
+      FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+          accessToken = response.authResponse.accessToken;
+          userID = response.authResponse.userID;
+
+        }
+      });
+
+
+    };
+
+    function theFunction() {
+      //showAlert("inside onclick");
+      window.location.href = 'https://www.facebook.com/logout.php?next=' + config.SECURE_SERVER_URL + '/pages/login.html&access_token=' + accessToken
+
+      FB.logout(function(response) {
+        // user is now logged out
+        showAlert("logout!!");
+
+      });
+    }
+
+    function openCreateReplyModal() {
+      $('#createReplyModal').modal({
+        backdrop: 'static',
+        keyboard: false
+      });
+      document.getElementById("saveReplyNodeBtn").onclick = function() {
+        saveReply()
+      };
+      document.getElementById("saveReplyNodeBtn").innerHTML = 'Save';
+      $('#deleteNodeBtn').hide();
+      $('#hashtag-tags')[0].selectize.clearOptions();
+      $('#input-tags')[0].selectize.clearOptions();
+      $('#reply-tags')[0].selectize.clearOptions();
+      $('#inbox-tags')[0].selectize.clearOptions();
+    }
+
+    function openUpdateReplyModal(index) {
+      $('#createReplyModal').modal({
+        backdrop: 'static',
+        keyboard: false
+      });
+      var currentNode = replyNodes[index];
+      //showAlert(currentNode.objectId);
+      document.getElementById("saveReplyNodeBtn").onclick = function() {
+        saveReply(currentNode.objectId)
+      };
+      document.getElementById("saveReplyNodeBtn").innerHTML = 'Update';
+      $('#deleteNodeBtn').show();
+      document.getElementById("deleteNodeBtn").onclick = function() {
+        $('#createReplyModal').modal('toggle');
+        showHUD();
+        callParseServerCloudCode("removeReplyNode", '{"objectId":"' + currentNode.objectId + '"}', function(response) {
+          if (response == "success") {
+            callParseServerCloudCode("getPageReplyNode", '{"pageId":"' + currentPageId + '"}', function(response) {
+              if (response) {
+
+                showAlert("🤖:ลบเรียบร้อย !");
+
+                $('#replyContent').empty();
+                for (var i = 0; i < response.length; i++) {
+                  replyNodes[i] = response[i];
+                  $('#replyContent').append('<a href="#" onclick="openUpdateReplyModal(' + i + ')" class="list-group-item borderless"><div class="panel panel-info"><div id="panel-item-body" class="panel-body">ลูกค้า Comment :' + JSON.stringify(
+                    replyNodes[i].input) + '</div></div></a>');
+                }
+              }
+            });
+          } else {
+            $('#createReplyModal').modal('toggle');
+            showAlert("บางอย่างผิดพลาด!!");
+          }
+        });
+      };
+      $('#hashtag-tags')[0].selectize.clearOptions();
+      $('#input-tags')[0].selectize.clearOptions();
+      $('#reply-tags')[0].selectize.clearOptions();
+      $('#inbox-tags')[0].selectize.clearOptions();
+
+      for (var i = 0; i < currentNode.hashtag.length; i++) {
+        if (currentNode.hashtag[i] != "") {
+          $('#hashtag-tags')[0].selectize.addOption({
+            text: currentNode.hashtag[i],
+            value: currentNode.hashtag[i]
+          });
+          $('#hashtag-tags')[0].selectize.refreshOptions();
+          $('#hashtag-tags')[0].selectize.addItem(currentNode.hashtag[i]);
+        }
+      }
+      for (var i = 0; i < currentNode.input.length; i++) {
+        if (currentNode.input[i] != "") {
+          $('#input-tags')[0].selectize.addOption({
+            text: currentNode.input[i],
+            value: currentNode.input[i]
+          });
+          $('#input-tags')[0].selectize.refreshOptions();
+          $('#input-tags')[0].selectize.addItem(currentNode.input[i]);
+        }
+      }
+      for (var i = 0; i < currentNode.reply.length; i++) {
+        if (currentNode.reply[i] != "") {
+          $('#reply-tags')[0].selectize.addOption({
+            text: currentNode.reply[i],
+            value: currentNode.reply[i]
+          });
+          $('#reply-tags')[0].selectize.refreshOptions();
+          $('#reply-tags')[0].selectize.addItem(currentNode.reply[i]);
+        }
+      }
+      for (var i = 0; i < currentNode.inbox.length; i++) {
+        if (currentNode.inbox[i] != "") {
+          $('#inbox-tags')[0].selectize.addOption({
+            text: currentNode.inbox[i],
+            value: currentNode.inbox[i]
+          });
+          $('#inbox-tags')[0].selectize.refreshOptions();
+          $('#inbox-tags')[0].selectize.addItem(currentNode.inbox[i]);
+        }
+      }
+
+
+    }
+
+    function applyDefaultReplyAndInbox() {
+      showHUD();
+      var inboxDatas = currentDefaultInboxString.split(",");
+      var replyDatas = currentDefaultReplyString.split(",");
+
+      replyDatas = JSON.stringify(replyDatas);
+      inboxDatas = JSON.stringify(inboxDatas);
+
+      var reqData = '{"objectId":"' + currentObjectId + '","reply":' + replyDatas + ',"inbox":' + inboxDatas + '}';
+      //showAlert(JSON.stringify(reqData));
+      callParseServerCloudCode("setDefaultValue", reqData, function(response) {
+        if (response == "success") {
+          showAlert("เรียบร้อย!!");
+        } else {
+          showAlert("บางอย่างผิดพลาด!!");
+        }
+      });
+
+    }
+
+
+    function serverSwitch() {
+      isServerStart = !isServerStart;
+      updateServerStatus(isServerStart);
+      updateServerUI(isServerStart);
+    }
+
+    function updateServerStatus(status) {
+      showHUD();
+      // call facebook api
+      var type = '';
+      if (status) {
+        type = 'POST';
+      }else {
+        type = 'DELETE';
+      }
+      callParseServerCloudCode("getPageAccessTokenFromPageId", '{"pageId":"' + currentPageId + '"}', function(response) {
+        if (response) {
+          var pageAccessToken = response;
+          callFacebookAPIsubscribed_apps(type,currentPageId,pageAccessToken,function(res){
+            if (res) {
+              // save to parse
+              var reqData = '{"objectId":"' + currentObjectId + '","status":' + status + ',"type":"startServer"}';
+              callParseServerCloudCode("setSystemStatus", reqData, function(response) {
+                if (response == "success") {
+                  showAlert("เรียบร้อย!!");
+                } else {
+                  showAlert("บางอย่างผิดพลาด!!");
+                }
+              });
+            }else {
+              showAlert("บางอย่างผิดพลาด!!");
+            }
+          });
+        }else {
+          showAlert("บางอย่างผิดพลาด!!");
+        }
+      });
+    }
+
+    function updateServerUI(status) {
+      if (status == true) {
+        $('#serverStatus').text('ระบบทำงานอยู่');
+        $('#serverButtonMsg').text('คลิ๊กเพื่อหยุดระบบ');
+        $("#serverPanel").toggleClass('panel panel-success panel panel-danger');
+        $("#serverIcon").toggleClass('fa fa-pause fa-4x fa fa-play fa-4x');
+        $("#serverButtonIcon").toggleClass('fa fa-check fa fa-close');
+      } else {
+        $('#serverStatus').text('ระบบกำลังพักอยู่');
+        $('#serverButtonMsg').text('คลิ๊กเพื่อเริ่มระบบ');
+        $("#serverPanel").toggleClass('panel panel-danger panel panel-success');
+        $("#serverIcon").toggleClass('fa fa-play fa-4x fa fa-pause fa-4x');
+        $("#serverButtonIcon").toggleClass('fa fa-close fa fa-check');
+      }
+    }
+
+    function replySwitch() {
+      isUseAutoReply = !isUseAutoReply;
+      updateReplyStatus(isUseAutoReply);
+      updateReplyUI(isUseAutoReply);
+    }
+
+    function updateReplyStatus(status) {
+      showHUD();
+      var reqData = '{"objectId":"' + currentObjectId + '","status":' + status + ',"type":"autoreply"}';
+      callParseServerCloudCode("setSystemStatus", reqData, function(response) {
+        console.log("response:"+response);
+
+        if (response == "success") {
+          console.log("เรียบร้อย!!");
+          showAlert("เรียบร้อย!!");
+        } else {
+          showAlert("บางอย่างผิดพลาด!!");
+        }
+      });
+    }
+
+    function updateReplyUI(status) {
+      if (status == true) {
+        $('#commentStatus').text('เปิดใช้งานอยู่');
+        $('#commentButtonMsg').text('คลิ๊กเพื่อปิดใช้งาน');
+        $("#commentPanel").toggleClass('panel panel-success panel panel-danger');
+        $("#commentButtonIcon").toggleClass('fa fa-check fa fa-close');
+
+      } else {
+        $('#commentStatus').text('ปิดใช้งานอยู่');
+        $('#commentButtonMsg').text('คลิ๊กเพื่อเปิดใช้งาน');
+        $("#commentPanel").toggleClass('panel panel-danger panel panel-success');
+        $("#commentButtonIcon").toggleClass('fa fa-close fa fa-check');
+      }
+    }
+
+    function inboxSwitch() {
+      isUseAutoInbox = !isUseAutoInbox;
+      updateInboxStatus(isUseAutoInbox);
+      updateInboxUI(isUseAutoInbox);
+    }
+
+    function updateInboxStatus(status) {
+      showHUD();
+      var reqData = '{"objectId":"' + currentObjectId + '","status":' + status + ',"type":"autoinbox"}';
+      callParseServerCloudCode("setSystemStatus", reqData, function(response) {
+        if (response == "success") {
+          showAlert("เรียบร้อย!!");
+        } else {
+          showAlert("บางอย่างผิดพลาด!!");
+        }
+      });
+
+    }
+
+    function updateInboxUI(status) {
+      if (status == true) {
+        $('#inboxStatus').text('เปิดใช้งานอยู่');
+        $('#inboxButtonMsg').text('คลิ๊กเพื่อปิดใช้งาน');
+        $("#inboxPanel").toggleClass('panel panel-success panel panel-danger');
+        $("#inboxButtonIcon").toggleClass('fa fa-check fa fa-close');
+
+      } else {
+        $('#inboxStatus').text('ปิดใช้งานอยู่');
+        $('#inboxButtonMsg').text('คลิ๊กเพื่อเปิดใช้งาน');
+        $("#inboxPanel").toggleClass('panel panel-danger panel panel-success');
+        $("#inboxButtonIcon").toggleClass('fa fa-close fa fa-check');
+      }
+    }
+
+    function tagSwitch() {
+      isUseTagFilter = !isUseTagFilter;
+      updateTagStatus(isUseTagFilter);
+      updateTagUI(isUseTagFilter);
+    }
+
+    function updateTagStatus(status) {
+      showHUD();
+      var reqData = '{"objectId":"' + currentObjectId + '","status":' + status + ',"type":"tagFilter"}';
+      callParseServerCloudCode("setSystemStatus", reqData, function(response) {
+        if (response == "success") {
+          showAlert("เรียบร้อย!!");
+        } else {
+          showAlert("บางอย่างผิดพลาด!!");
+        }
+      });
+
+    }
+
+    function updateTagUI(status) {
+      if (status == true) {
+        $('#tagStatus').text('เปิดใช้งานอยู่');
+        $('#tagButtonMsg').text('คลิ๊กเพื่อปิดใช้งาน');
+        $("#tagPanel").toggleClass('panel panel-success panel panel-danger');
+        $("#tagButtonIcon").toggleClass('fa fa-check fa fa-close');
+
+      } else {
+        $('#tagStatus').text('ปิดใช้งานอยู่');
+        $('#tagButtonMsg').text('คลิ๊กเพื่อเปิดใช้งาน');
+        $("#tagPanel").toggleClass('panel panel-danger panel panel-success');
+        $("#tagButtonIcon").toggleClass('fa fa-close fa fa-check');
+      }
+    }
+
+    function callParseServerCloudCode(methodName, requestMsg, responseMsg) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', config.SECURE_SERVER_URL + '/parse/functions/' + methodName, true);
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.setRequestHeader('X-Parse-Application-Id', config.APP_ID);
+      xhr.setRequestHeader('X-Parse-REST-API-Key', config.REST_KEY);
+
+      xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var myArr = JSON.parse(this.responseText);
+          console.log(this.responseText);
+          console.log(JSON.stringify(myArr.result));
+
+          responseMsg(myArr.result);
+        }
+      };
+
+      xhr.send(requestMsg);
+    }
+
+    function callFacebookAPIsubscribed_apps(type, pageId, access_token, responseMsg) {
+      var facebookGraphURL = config.FB_GRAPH_URI + pageId + '/subscribed_apps?access_token=' + access_token;
+      $.ajax({
+        type: type,
+        url: facebookGraphURL,
+        dataType: 'json',
+        success: function(data, status) {
+          responseMsg(data.success);
+        },
+        error: function(data, e1, e2) {
+          responseMsg(false);
+        }
+      })
+    }
+
+
+    (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+  </script>
+
+
+
+
+  <!-- jQuery -->
+  <script src="../vendor/jquery/jquery.min.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  <!-- Metis Menu Plugin JavaScript -->
+  <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+  <!-- Custom Theme JavaScript -->
+  <script src="../dist/js/sb-admin-2.js"></script>
+
+  <!-- slectize -->
+  <script src="../vendor/selectize/js/standalone/selectize.min.js"></script>
+
+</body>
+
+</html>

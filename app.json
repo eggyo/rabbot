@@ -1,0 +1,55 @@
+{
+  "name": "Parse Server Example",
+  "description": "An example Parse API server using the parse-server module",
+  "repository": "https://github.com/ParsePlatform/parse-server-example",
+  "logo": "https://avatars0.githubusercontent.com/u/1294580?v=3&s=200",
+  "keywords": ["node", "express", "parse"],
+  "env": {
+    "PARSE_MOUNT": {
+      "description": "Configure Parse API route.",
+      "value": "/parse"
+    },
+    "APP_NAME": {
+      "description": "Enter detail.",
+      "value": "myAppName"
+    },
+    "APP_ID": {
+      "description": "A unique identifier for your app.",
+      "value": "myAppId"
+    },
+    "MASTER_KEY": {
+      "description": "A key that overrides all permissions. Keep this secret.",
+      "value": "myMasterKey"
+    },
+    "REST_KEY": {
+      "description": "Enter detail REST_KEY",
+      "value": "myRestKey"
+    },
+    "SERVER_URL": {
+      "description": "URL to connect to your Heroku instance (update with your app's name + PARSE_MOUNT)",
+      "value": "http://yourappname.herokuapp.com/parse"
+    },
+    "SECURE_SERVER_URL": {
+      "description": "Enter detail SECURE_SERVER_URL",
+      "value": "https://yourappname.herokuapp.com/parse"
+    },
+    "FB_APP_SECRET": {
+      "description": "Enter detail FB_APP_SECRET",
+      "value": ""
+    },
+    "FB_CLIENT_ID": {
+      "description": "Enter detail FB_CLIENT_ID",
+      "value": ""
+    },
+    "FB_GRAPH_URI": {
+      "description": "Enter detail FB_GRAPH_URI",
+      "value": ""
+    },
+    "FB_VALIDATION_TOKEN": {
+      "description": "Enter detail FB_VALIDATION_TOKEN",
+      "value": ""
+    }
+  },
+  "image": "heroku/nodejs",
+  "addons": ["mongolab"]
+}

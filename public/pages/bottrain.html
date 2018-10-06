@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1 ,maximum-scale=1.0, user-scalable=0">
+
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Bot Training</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="../vendor/theme.css" rel="stylesheet">
+  <link href="../vendor/selectize/css/selectize.bootstrap3.css" rel="stylesheet">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+  <div class="container_2">
+
+    <form id="contact" action="" method="post">
+
+      <label id="label-tags" for="ask-tags">พูดว่า:</label>
+      <fieldset class="form-group">
+        <input type="text" id="ask-tags" tabindex="1" value="" required>
+      </fieldset>
+      <label id="label-tags" for="ans-tags">ตอบว่า:</label>
+      <fieldset class="form-group">
+        <input type="text" id="ans-tags" tabindex="2" value="" required>
+      </fieldset>
+
+      <fieldset>
+        <button type="button" onclick="search()" id="contact-submit">Submit</button>
+      </fieldset>
+      <p class="copyright">Created by <a href="https://dang-ai.herokuapp.com" target="_blank" title="Colorlib">Dang.ai</a></p>
+    </form>
+  </div>
+
+  <div id="myNav" class="overlay">
+    <div class="loader"></div>
+  </div>
+
+
+
+
+  <script>
+    var currentAskString = "";
+    var currentAnsString = "";
+
+    var userId = '';
+    var pageToken = "EAAEXd2XKlTEBAFiCOWAwbvxrKeYq9m3ElhPZBpwR0Sn2nIeE8fnLFDGcGVR7TCCB6OegNcArLiXSl8I8eqLasjU0IzkSAhwicUxsHoepVygGgYcfIXiRnLdNkAOpD2azdVnx7GEUBJwe0beQ9tCB0ZABZCYavgDngTfzAd6DgZDZD";
+    window.extAsyncInit = function() {
+      MessengerExtensions.getUserID(function success(uids) {
+        var psid = uids.psid;
+        userId = psid;
+
+      }, function error(err, errorMessage) {
+        // Error handling code
+      });
+    };
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {
+        return;
+      }
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'Messenger'));
+
+    function search() {
+      var msgDatas = currentAskString.split(",");
+      var replyDatas = currentAnsString.split(",");
+      msgDatas = JSON.stringify(msgDatas);
+      replyDatas = JSON.stringify(replyDatas);
+      var data = '{"msg":' + msgDatas + ',"replyMsg":' + replyDatas + '}';
+      callParseServerCloudCode("botTraining", data, function(response) {
+        if (response) {
+          console.log(response);
+          alert("🤖:จำได้แล้ว !");
+        }
+      });
+
+    }
+
+    getAllTag();
+
+    function getAllTag() {
+
+      setTimeout(function() {
+        document.getElementById("myNav").style.visibility = "hidden";
+
+        // selectize script
+        $('#ask-tags').selectize({
+          plugins: ['remove_button'],
+          persist: false,
+          createOnBlur: true,
+          delimiter: ',',
+          create: true,
+          placeholder: "ใส่ข้อความที่ต้องการสอน...",
+          onChange: function(value) {
+            currentAskString = value;
+          }
+        });
+
+        $('#ans-tags').selectize({
+          plugins: ['remove_button'],
+          persist: false,
+          createOnBlur: true,
+          delimiter: ',',
+          create: true,
+          placeholder: "ใส่ข้อความที่ให้ไอ้แดงตอบ...",
+          onChange: function(value) {
+            currentAnsString = value;
+          }
+        });
+      }, 1000);
+
+    }
+
+    function callParseServerCloudCode(methodName, requestMsg, responseMsg) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://reply-msg-parse-server.herokuapp.com/parse/functions/' + methodName, true);
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.setRequestHeader('X-Parse-Application-Id', 'myAppId');
+      xhr.setRequestHeader('X-Parse-REST-API-Key', 'myRestKey');
+
+      xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var myArr = JSON.parse(this.responseText);
+          responseMsg(myArr.result);
+        }
+      };
+
+      xhr.send(requestMsg);
+    }
+
+    function callSendAPI(messageData, responseMsg) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://graph.facebook.com/v2.6/me/messages?access_token=' + pageToken, true);
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var myArr = JSON.parse(this.responseText);
+          responseMsg(myArr);
+        }
+      };
+
+      xhr.send(messageData);
+
+    }
+  </script>
+
+
+  <!-- jQuery -->
+  <script src="../vendor/jquery/jquery.min.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  <script src="../vendor/selectize/js/standalone/selectize.min.js"></script>
+
+  <!-- Scrolling Nav JavaScript -->
+  <script src="js/jquery.easing.min.js"></script>
+  <script src="js/scrolling-nav.js"></script>
+
+
+
+</body>
+
+</html>
