@@ -1,0 +1,21 @@
+setup:
+  addons:
+    - plan: 'mongolab:sandbox'
+      as: MONGODB
+  config:
+    APP_ID: myAppId
+    APP_NAME: Rabbot
+    FB_APP_SECRET: 7b7f9873ff0392072013e463c0020015
+    FB_CLIENT_ID: '274815523150415'
+    FB_GRAPH_URI: 'https://graph.facebook.com/v2.12/'
+    FB_VALIDATION_TOKEN: rabbot-validation-token
+    MASTER_KEY: myMasterKey
+    PARSE_MOUNT: /parse
+    REST_KEY: myRestKey
+    SECURE_SERVER_URL: 'https://rabbot.herokuapp.com/parse'
+    SERVER_URL: 'http://rabbot.herokuapp.com/parse'
+build:
+  languages:
+    - nodejs
+run:
+  web: npm start
